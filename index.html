@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherWeather | Lagos</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top glass-nav py-3">
+    <div class="container-fluid px-4 px-lg-5">
+      
+      <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+        <div class="rounded-circle d-flex align-items-center justify-content-center shadow" style="width: 45px; height: 45px; background: linear-gradient(135deg, #035bd9, #db51ff);">
+          <span class="material-symbols-outlined text-white">cyclone</span>
+        </div>
+        <div>
+          <div class="fw-bold fs-5 lh-1 text-white">AetherWeather</div>
+          <div class="text-uppercase" style="font-size: 0.65rem; letter-spacing: 2px; color: var(--secondary)">Precision Met</div>
+        </div>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="material-symbols-outlined text-white">menu</span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto ms-4 mb-2 mb-lg-0 d-none d-xl-flex p-1 rounded-pill" style="background: var(--surface-container-low)">
+          <li class="nav-item">
+            <a class="nav-link pill-nav-active px-3 py-1" href="#">Overview</a>
+          </li>
+        </ul>
+        
+        <form class="d-flex mx-auto mt-3 mt-lg-0" id="weatherForm" style="max-width: 400px; width: 100%;">
+          <div class="input-group search-input align-items-center ps-3 pe-1 py-1 w-100 rounded-pill" style="background: var(--surface-container-high);">
+            <span class="material-symbols-outlined text-muted fs-5 me-2">search</span>
+            <input class="form-control bg-transparent border-0 shadow-none text-white px-0" id="searchInput" type="search" placeholder="Search city or coords..." aria-label="Search">
+            <button class="btn btn-sm rounded-pill fw-medium px-3 ms-2" type="submit" style="background: var(--primary); color: #fff;">Search</button>
+          </div>
+        </form>
+
+        <div class="d-flex align-items-center gap-3 ms-auto mt-3 mt-lg-0">
+          <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill" style="background: var(--surface-container-low)">
+            <span class="material-symbols-outlined"  style="color: var(--primary); font-size: 1.2rem;">my_location</span>
+            <span class="fw-bold" id="weatherCity" style="font-size: 0.9rem;"></span>
+            <span class="badge rounded-pill" style="background: var(--tertiary); color: #000;">Live</span>
+          </div>
+          
+          <div class="d-flex align-items-center p-1 rounded-pill" style="background: var(--surface-container-low)">
+            <button class="btn btn-sm rounded-pill fw-bold" style="background: var(--surface-container-high); color: white;">°C</button>
+            <button class="btn btn-sm rounded-pill text-muted border-0 shadow-none">°F</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container-fluid px-4 px-lg-5" style="padding-top: 100px; padding-bottom: 50px;">
+    
+    <div class="row justify-content-center">
+      <div class="col-lg-10 d-flex flex-column gap-4">
+        
+        <!-- Header Section -->
+        <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between mb-2 mt-4">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span id="locationID" class="badge rounded-pill text-uppercase d-flex align-items-center gap-2 px-3 py-2" style="background: var(--surface-container-high); color: var(--primary)">
+                <span class="spinner-grow spinner-grow-sm" style="width: 0.5rem; height: 0.5rem;" role="status"></span>
+                
+              </span>
+              <span class="text-muted" style="font-size: 0.8rem">| Timezone Offset: 3600</span>
+            </div>
+            <div class="d-flex align-items-baseline gap-3">
+              <h1 class="fw-bold mb-0 text-white" id="weatherCity" style="font-size: 2.5rem; letter-spacing: -1px;"></h1>
+              <span class="text-muted fw-medium text-capitalize">Clouds - overcast clouds</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hero Weather Card -->
+        <div class="weather-card hero-gradient p-4 p-md-5 d-flex flex-column justify-content-between text-white" style="min-height: 360px;">
+          <div class="d-flex justify-content-between align-items-center z-1 position-relative">
+            <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill shadow-sm text-capitalize" style="background: rgba(0,0,0,0.25); backdrop-filter: blur(10px);">
+              <span class="material-symbols-outlined">cloud</span>
+              <span class="fw-medium" style="font-size: 0.9rem;">Main: Clouds</span>
+            </div>
+            <div class="px-3 py-2 rounded-pill fw-bold shadow-sm" style="background: rgba(0,0,0,0.25); backdrop-filter: blur(10px); font-size: 0.8rem; letter-spacing: 1px;">
+              Temp Min: 24.17° &bull; Temp Max: 24.17°
+            </div>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center my-4 z-1 position-relative">
+            <div>
+              <div class="d-flex align-items-start">
+                <span class="fw-bold" id="weatherTemp" style="font-size: 5.5rem; line-height: 1; letter-spacing: -3px; text-shadow: 0 4px 10px rgba(0,0,0,0.3)"></span>
+                <span class="fs-1 fw-bold mt-2">°C</span>
+              </div>
+              <div class="mt-2" style="font-size: 1.1rem; opacity: 0.9;">
+               Feel_like<span id="weatherFeels_like"></span> &bull; Humidity: <span id="weatherHumidity"></span>%
+              </div>
+            </div>
+            
+            <div class="position-relative" style="width: 150px; height: 120px;">
+              <!-- Decorative CSS Cloud Element -->
+              <div class="position-absolute rounded-circle animate-glow" style="top: 10px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, #FFB957, #FFAA00); box-shadow: 0 0 30px rgba(255,185,87,0.8);"></div>
+              <div class="position-absolute w-100 h-100 cloud-bg"></div>
+            </div>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top border-white border-opacity-25 z-1 position-relative">
+            <div class="d-flex align-items-center gap-2" style="font-size: 0.85rem; opacity: 0.9;">
+              <span class="material-symbols-outlined fs-6">sort</span>
+              Description: overcast clouds
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Metrics Grid explicitly listing all JSON fields -->
+        <div class="row g-3">
+          
+          <!-- Identification Metrics -->
+          <div class="col-md-3 col-sm-6">
+            <div class="weather-card p-3 h-100 d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span class="text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Identifier</span>
+                <span class="material-symbols-outlined fs-5">fingerprint</span>
+              </div>
+              <div class="mb-2">
+                <div class="d-flex flex-column gap-1">
+                  <span class="fw-bold fs-4 lh-1">804</span>
+                  <span class="text-muted" style="font-size: 0.8rem;">ID</span>
+                </div>
+                <div class="text-muted mt-2 border-top border-secondary opacity-50 pt-2" style="font-size: 0.75rem;" id="weatherId">Name: Lagos</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Geography Metrics -->
+          <div class="col-md-3 col-sm-6">
+            <div class="weather-card p-3 h-100 d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span class="text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Geography</span>
+                <span class="material-symbols-outlined fs-5">schedule</span>
+              </div>
+              <div class="mb-2">
+                <div class="d-flex flex-column gap-1">
+                  <span class="fw-bold fs-4 lh-1">3600</span>
+                  <span class="text-muted" style="font-size: 0.8rem;">Timezone</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pressure Metrics -->
+          <div class="col-md-3 col-sm-6">
+            <div class="weather-card p-3 h-100 d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span class="text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Atmosphere</span>
+                <span class="material-symbols-outlined fs-5">speed</span>
+              </div>
+              <div class="mb-2">
+                <div class="fw-bold fs-4 lh-1">1015</div>
+                <div style="font-size: 0.8rem; color: var(--secondary)">Pressure (hPa)</div>
+              </div>
+              <div class="d-flex flex-column gap-1 text-muted border-top border-secondary opacity-50 pt-2 mt-1" style="font-size: 0.75rem;">
+                <span>Sea Level: 1015</span>
+                <span>Grnd Level: 1015</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Wind Metrics -->
+          <div class="col-md-3 col-sm-6">
+            <div class="weather-card p-3 h-100 d-flex flex-column justify-content-between">
+              <div class="d-flex justify-content-between text-muted mb-2">
+                <span class="text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Wind</span>
+                <span class="material-symbols-outlined fs-5">navigation</span>
+              </div>
+              <div class="mb-2">
+                <div class="d-flex align-items-baseline gap-1">
+                  <span class="fw-bold fs-4 lh-1">1.91</span>
+                  <span class="text-muted" style="font-size: 0.8rem;">Speed</span>
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-1 text-muted border-top border-secondary opacity-50 pt-2 mt-1" style="font-size: 0.75rem;">
+                <span>Deg: 259</span>
+                <span>Gust: 6.34</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script> 
+</body>
+</html>
