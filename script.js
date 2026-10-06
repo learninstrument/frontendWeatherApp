@@ -11,7 +11,8 @@ form.addEventListener('submit', async(e)=> {
     }
 
     try {
-        const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`)
+        const url = `https://backendweatherapp-isou.onrender.com`
+        const response = await fetch(`${url}/api/weather?city=${encodeURIComponent(city)}`)
         const data = await response.json()
 
         if(!response.ok){
